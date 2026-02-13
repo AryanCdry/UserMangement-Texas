@@ -8,7 +8,7 @@ import './styles.css';
 function App() {
   return (
 
-    <div>boo you </div>
+    <div>Aryan the Great </div>
   );
 }
 
