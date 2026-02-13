@@ -1,0 +1,179 @@
+:root {
+  /* Colors */
+  --bg:  #0f1724; /* deep slate */
+  --surface: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  --muted: #98a0aa;
+  --accent: #7c5cff;
+  --accent-2: #34d399;
+  --glass: rgba(255,255,255,0.04);
+  --card-edge: rgba(255,255,255,0.03);
+  --text: rgba(255,255,255,0.92);
+  --glass-border: rgba(255,255,255,0.06);
+
+  /* Sizing */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+
+  /* Motion */
+  --ease-smooth: cubic-bezier(.2,.9,.2,1);
+  --anim-fast: 180ms;
+
+  /* Fluid typography */
+  --type-scale-min: 14; /* px */
+  --type-scale-max: 20; /* px */
+
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  color-scheme: dark;
+  color: var(--text);
+  background-color: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light theme override */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f7fafc;
+    --surface: linear-gradient(180deg, rgba(0,0,0,0.02), rgba(0,0,0,0.01));
+    --muted: #475569;
+    --accent: #5b4bff;
+    --accent-2: #10b981;
+    --glass: rgba(255,255,255,0.6);
+    --card-edge: rgba(0,0,0,0.04);
+    --text: #0f1724;
+    --glass-border: rgba(0,0,0,0.06);
+    color-scheme: light;
+  }
+}
+
+/* Fluid base font-size */
+html { font-size: calc(var(--type-scale-min)px + (var(--type-scale-max) - var(--type-scale-min)) * ((100vw - 320px) / (1600 - 320))); }
+@media (min-width:1600px){ html{ font-size: calc(var(--type-scale-max)px) } }
+
+/* Reset + helpers */
+*{box-sizing:border-box}
+html,body,#root{height:100%}
+body{margin:0;line-height:1.4;background:var(--bg);color:var(--text);}
+a{color:var(--accent);text-decoration:none;font-weight:600}
+a:hover{color:color-mix(in srgb, var(--accent) 80%, black);}
+
+/* App container */
+.app-wrap{
+  min-height:100vh;
+  display:grid;
+  grid-template-columns: 1fr min(1200px, calc(100% - 4rem)) 1fr;
+  gap:0;
+}
+.app{
+  grid-column:2;
+  padding:2.5rem 1.5rem;
+}
+
+/* Decorative animated gradient background (subtle) */
+.bg-animated {
+  position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background: radial-gradient(600px 600px at 10% 10%, rgba(124,92,255,0.12), transparent 8%),
+              radial-gradient(500px 500px at 90% 90%, rgba(52,211,153,0.08), transparent 10%);
+  transition:opacity 400ms var(--ease-smooth);
+}
+
+@media (prefers-reduced-motion: reduce){ .bg-animated{transition:none} }
+
+/* Grid / list layout */
+.grid-2 { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:1rem; }
+.grid-3 { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:1.25rem; }
+@media (max-width:900px){ .grid-3{grid-template-columns:repeat(2,1fr)} .grid-2{grid-template-columns:1fr} }
+
+/* Card pattern (glassmorphism + subtle depth) */
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding:1rem;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  transition: transform var(--anim-fast) var(--ease-smooth), box-shadow var(--anim-fast) var(--ease-smooth);
+}
+.card:hover{ transform: translateY(-6px); box-shadow: 0 12px 36px rgba(2,6,23,0.7) }
+
+/* User card (example component) */
+.user-card{ display:flex; gap:1rem; align-items:center; }
+.user-card .avatar{
+  width:64px; height:64px; border-radius:12px; flex:0 0 64px; overflow:hidden;
+  background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  display:grid; place-items:center; font-weight:700; color:white; font-size:1.05rem;
+}
+.user-card .meta{ flex:1 }
+.user-card h3{ margin:0 0 .125rem 0; font-size:1.05rem }
+.user-card p{ margin:0; color:var(--muted); font-size:.92rem }
+
+/* Action row */
+.row{ display:flex; gap:.5rem; align-items:center }
+.spacer{ flex:1 }
+
+/* Buttons */
+.btn{ display:inline-flex; align-items:center; gap:.5rem; padding:.6rem .9rem; border-radius:10px; border:1px solid transparent; cursor:pointer; font-weight:600; background:transparent; color:var(--text); }
+.btn-primary{ background: linear-gradient(90deg,var(--accent), #6a5bff); color:white; box-shadow: 0 6px 18px rgba(124,92,255,0.12); border-color:transparent }
+.btn-ghost{ background:transparent; border:1px solid var(--glass-border); }
+.btn:focus{ outline:3px solid color-mix(in srgb, var(--accent) 22%, transparent); outline-offset:2px }
+
+/* Input / form */
+.form{ display:flex; flex-direction:column; gap:.75rem }
+input[type="text"], input[type="email"], textarea, select{
+  background: rgba(255,255,255,0.02); border:1px solid var(--glass-border); color:var(--text);
+  padding:.6rem .75rem; border-radius:8px; font:inherit; transition: box-shadow 160ms var(--ease-smooth), border-color 160ms var(--ease-smooth);
+}
+input:focus, textarea:focus, select:focus{ box-shadow: 0 6px 18px rgba(2,6,23,0.45); border-color: color-mix(in srgb, var(--accent) 50%, transparent) }
+
+label{ font-size:.92rem; color:var(--muted) }
+
+/* User list */
+.user-list{ display:flex; flex-direction:column; gap:.6rem }
+.user-list .user-item{ display:flex; align-items:center; gap:1rem; padding:.6rem; border-radius:10px; transition:background 120ms; }
+.user-list .user-item:hover{ background: rgba(255,255,255,0.02) }
+
+/* Responsive modal-like panel */
+.panel{ max-width:920px; margin:0 auto; }
+
+/* Utility classes */
+.muted{ color:var(--muted) }
+.caps{ text-transform:uppercase; letter-spacing:.08em; font-size:.8rem }
+
+/* Custom scrollbar for wide viewports */
+@media (min-width:900px){
+  ::-webkit-scrollbar{ width:12px; height:12px }
+  ::-webkit-scrollbar-track{ background:transparent }
+  ::-webkit-scrollbar-thumb{ background: linear-gradient(180deg, rgba(124,92,255,0.18), rgba(52,211,153,0.12)); border-radius:999px; border:3px solid transparent; background-clip: padding-box }
+}
+
+/* Fancy card header with accent edge */
+.card-head{ display:flex; align-items:center; gap:.75rem; padding-bottom:.5rem; border-bottom:1px dashed var(--card-edge); margin-bottom:.75rem }
+.accent-edge{ width:6px; height:40px; border-radius:6px; background:linear-gradient(180deg,var(--accent),var(--accent-2)); box-shadow: 0 6px 18px rgba(124,92,255,0.12) }
+
+/* Tiny animated badge */
+.status-badge{ display:inline-flex; align-items:center; gap:.5rem; padding:4px 8px; border-radius:999px; background:rgba(0,0,0,0.12); color:var(--text); font-size:.85rem }
+.dot{ width:8px; height:8px; border-radius:50%; background:var(--accent-2); box-shadow:0 0 8px color-mix(in srgb, var(--accent-2) 40%, transparent)}
+
+/* keyframes */
+@keyframes floaty { 0%{ transform:translateY(0) } 50%{ transform:translateY(-6px) } 100%{ transform:translateY(0) } }
+.float{ animation: floaty 6s ease-in-out infinite }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce){
+  .card, .btn, .user-card, .float{ animation:none; transition:none }
+}
+
+/* Small helpers for layout spacing */
+.p-1{ padding:.5rem }
+.p-2{ padding:1rem }
+.m-0{ margin:0 }
+.text-center{ text-align:center }
+
+/* Example hero */
+.hero{ display:flex; gap:1.5rem; align-items:center; justify-content:space-between; padding:2rem; border-radius:16px; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border:1px solid var(--glass-border) }
+.hero h1{ margin:0; font-size: clamp(1.6rem, 2.6vw, 2.8rem) }
+
+/* Accessibility: visible focus ring for keyboard users only */
+:where(:focus-visible){ outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent); outline-offset:3px }
+
+/* End of file */
