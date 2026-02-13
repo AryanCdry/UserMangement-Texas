@@ -7,14 +7,7 @@ import './styles.css';
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<UserList />} />
-        <Route path="/users" element={<UserList />} />
-        <Route path="/users/:id" element={<UserView />} />
-        <Route path="/users/:id/edit" element={<UserEdit />} />
-      </Routes>
-    </Router>
+    >
   );
 }
 
